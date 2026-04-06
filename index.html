@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marek Říha · Business & Data Translator</title>
+  <meta name="description" content="Marek Říha – propojuji svět dat se strategií a lidmi. Data Analytics, AI Consulting, Process Design, Business Analysis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & VARS ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0b0e17;
+      --bg2:      #10141f;
+      --bg3:      #151a28;
+      --border:   rgba(255,255,255,0.07);
+      --amber:    #f0a040;
+      --amber2:   #ffd080;
+      --teal:     #3ec9c0;
+      --blue:     #4a80d8;
+      --text:     #e8eaf0;
+      --muted:    #7a8099;
+      --card:     rgba(255,255,255,0.035);
+      --card-h:   rgba(255,255,255,0.065);
+      --r:        10px;
+      --mono:     'DM Mono', monospace;
+      --sans:     'Syne', sans-serif;
+      --serif:    'Instrument Serif', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--amber); color: #000; }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.5;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(11,14,23,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--amber);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-cta {
+      background: var(--amber); color: #000 !important;
+      padding: 8px 20px; border-radius: 40px;
+    }
+    .nav-cta:hover { background: var(--amber2) !important; color: #000 !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated grid background */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(74,128,216,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,128,216,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+      animation: gridShift 20s linear infinite;
+    }
+
+    /* glow orbs */
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(240,160,64,0.08) 0%, transparent 70%);
+      top: 50%; left: 60%;
+      transform: translate(-50%,-50%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes gridShift {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(60px); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.7; }
+      50% { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--mono); font-size: 12px; color: var(--teal);
+      border: 1px solid rgba(62,201,192,0.3);
+      padding: 6px 14px; border-radius: 40px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge::before { content: '●'; animation: blink 2s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(52px, 8vw, 96px);
+      line-height: 1.0;
+      letter-spacing: -2px;
+      color: #fff;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-name em { color: var(--amber); font-style: italic; }
+
+    .hero-role {
+      font-size: clamp(15px, 2vw, 19px);
+      color: var(--muted);
+      margin-top: 20px;
+      max-width: 620px;
+      font-weight: 400;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-role strong { color: var(--text); }
+
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 32px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .chip {
+      font-family: var(--mono); font-size: 12px;
+      padding: 6px 14px; border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .chip:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+    .chip.accent { border-color: rgba(240,160,64,0.4); color: var(--amber); }
+
+    .hero-actions {
+      display: flex; gap: 16px; margin-top: 44px; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .btn-primary {
+      background: var(--amber); color: #000;
+      padding: 14px 32px; border-radius: 6px;
+      font-family: var(--sans); font-size: 14px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.05em;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--amber2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,160,64,0.25); }
+    .btn-secondary {
+      border: 1px solid var(--border); color: var(--text);
+      padding: 14px 32px; border-radius: 6px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.05em;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--muted); background: var(--card); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-family: var(--mono); font-size: 11px;
+      animation: fadeIn 1s 1s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 48px; background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollDown 2s ease-in-out infinite;
+    }
+    @keyframes scrollDown { 0%,100%{transform:scaleY(1);transform-origin:top} 50%{transform:scaleY(0.5);transform-origin:bottom} }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 96px 48px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--mono); font-size: 12px; color: var(--amber);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .section-label::after {
+      content: ''; flex: 0 0 40px; height: 1px; background: var(--amber);
+    }
+    .section-title {
+      font-family: var(--serif); font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.1; color: #fff; margin-bottom: 48px;
+    }
+    .section-title em { color: var(--amber); font-style: italic; }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .about-text p {
+      color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 16px;
+    }
+    .about-text p strong { color: var(--text); }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 28px; border-radius: var(--r);
+      transition: background 0.2s;
+    }
+    .stat-card:hover { background: var(--card-h); }
+    .stat-num {
+      font-family: var(--serif); font-size: 48px; color: var(--amber);
+      line-height: 1;
+    }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 600; letter-spacing: 0.05em; }
+    .coaching-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(62,201,192,0.08), rgba(74,128,216,0.08));
+      border: 1px solid rgba(62,201,192,0.2);
+      border-radius: var(--r);
+      padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      flex-wrap: wrap;
+    }
+    .coaching-card-text strong { color: var(--teal); font-size: 15px; display: block; margin-bottom: 4px; }
+    .coaching-card-text span { color: var(--muted); font-size: 14px; }
+    .coaching-link {
+      background: rgba(62,201,192,0.12); color: var(--teal);
+      border: 1px solid rgba(62,201,192,0.3);
+      padding: 10px 22px; border-radius: 6px;
+      font-size: 13px; font-weight: 700; text-decoration: none;
+      white-space: nowrap; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .coaching-link:hover { background: rgba(62,201,192,0.2); transform: translateY(-2px); }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--bg); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .service-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 36px 32px;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--amber), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .service-card:hover { background: var(--card-h); transform: translateY(-4px); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { font-size: 32px; margin-bottom: 20px; display: block; }
+    .service-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .service-desc { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+    .service-tag {
+      font-family: var(--mono); font-size: 11px;
+      padding: 3px 10px; border-radius: 3px;
+      background: rgba(255,255,255,0.05); color: var(--muted);
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .skill-group-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 28px 24px;
+    }
+    .skill-group-card h3 {
+      font-family: var(--mono); font-size: 11px; color: var(--amber);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .skill-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px; color: var(--text);
+    }
+    .skill-item:last-child { border-bottom: none; }
+    .skill-bar {
+      width: 60px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;
+    }
+    .skill-fill { height: 100%; background: var(--amber); border-radius: 2px; }
+
+    /* ─── PORTFOLIO ─── */
+    #portfolio { background: var(--bg); }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .portfolio-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 32px;
+      transition: all 0.3s; cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+    .portfolio-card:hover { background: var(--card-h); border-color: rgba(240,160,64,0.2); transform: translateY(-4px); }
+    .portfolio-tag {
+      font-family: var(--mono); font-size: 11px; color: var(--amber);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 14px; display: block;
+    }
+    .portfolio-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .portfolio-desc { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .portfolio-foot {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px;
+    }
+    .portfolio-foot span {
+      font-family: var(--mono); font-size: 11px;
+      padding: 3px 10px; border-radius: 3px;
+      background: rgba(240,160,64,0.08); color: var(--amber);
+      border: 1px solid rgba(240,160,64,0.15);
+    }
+    .coming-soon {
+      position: absolute; top: 16px; right: 16px;
+      font-family: var(--mono); font-size: 10px; color: var(--muted);
+      border: 1px solid var(--border); padding: 3px 8px; border-radius: 3px;
+    }
+
+    /* ─── BLOG ─── */
+    #blog { background: var(--bg2); }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .blog-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 28px;
+      transition: all 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { background: var(--card-h); border-color: rgba(240,160,64,0.15); transform: translateY(-3px); }
+    .blog-meta {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      margin-bottom: 12px; display: flex; gap: 12px;
+    }
+    .blog-category { color: var(--teal); }
+    .blog-title { font-size: 17px; font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 10px; }
+    .blog-excerpt { color: var(--muted); font-size: 13px; line-height: 1.7; flex: 1; }
+    .blog-read {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--amber); font-size: 13px; font-weight: 600;
+      margin-top: 20px; text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .blog-read:hover { gap: 10px; }
+    .blog-coming {
+      text-align: center; padding: 64px 32px;
+      color: var(--muted); font-size: 15px;
+      border: 1px dashed var(--border); border-radius: var(--r);
+      font-family: var(--mono); grid-column: 1/-1;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--bg); }
+    .contact-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+    .contact-info { }
+    .contact-info p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 32px; }
+    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px; border-radius: var(--r);
+      border: 1px solid var(--border); text-decoration: none;
+      color: var(--text); background: var(--card);
+      transition: all 0.2s; font-size: 14px;
+    }
+    .contact-link:hover { border-color: rgba(240,160,64,0.3); background: var(--card-h); transform: translateX(4px); }
+    .contact-link-icon { font-size: 20px; }
+    .contact-link-label { font-family: var(--mono); font-size: 11px; color: var(--muted); display: block; }
+    .contact-form { }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 8px;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 14px 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text); font-family: var(--sans); font-size: 14px;
+      transition: border-color 0.2s; outline: none; resize: vertical;
+    }
+    .form-group input:focus, .form-group textarea:focus { border-color: rgba(240,160,64,0.5); }
+    .form-group textarea { min-height: 120px; }
+    .form-submit {
+      width: 100%; background: var(--amber); color: #000;
+      border: none; padding: 16px; border-radius: 6px;
+      font-family: var(--sans); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+    }
+    .form-submit:hover { background: var(--amber2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,160,64,0.25); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { font-family: var(--mono); font-size: 13px; color: var(--amber); }
+    .footer-copy { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--amber); }
+
+    /* ─── MOBILE MENU ─── */
+    .menu-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 4px; color: var(--text);
+    }
+    .menu-toggle span { display: block; width: 22px; height: 2px; background: currentColor; margin: 5px 0; transition: all 0.3s; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--bg); align-items: center; justify-content: center;
+        gap: 32px; z-index: 99;
+      }
+      .nav-links.open a { font-size: 20px; }
+      .menu-toggle { display: block; position: relative; z-index: 100; }
+      section { padding: 64px 24px; }
+      #hero { padding: 100px 24px 64px; }
+      .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav id="navbar">
+    <div class="nav-logo">MR // rihamarek.cz</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" onclick="closeMenu()">O mně</a></li>
+      <li><a href="#services" onclick="closeMenu()">Služby</a></li>
+      <li><a href="#portfolio" onclick="closeMenu()">Portfolio</a></li>
+      <li><a href="#blog" onclick="closeMenu()">Blog</a></li>
+      <li><a href="#contact" onclick="closeMenu()" class="nav-cta">Kontakt</a></li>
+    </ul>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu" id="menuBtn">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Dostupný pro spolupráci · Hradec Králové / Remote</div>
+      <h1 class="hero-name">
+        Marek<br /><em>Říha</em>
+      </h1>
+      <p class="hero-role">
+        <strong>Business & Data Translator</strong> · Propojuji svět dat se strategií a lidmi.<br />
+        Analytik, konzultant AI a automatizace, certifikovaný kouč.
+      </p>
+      <div class="hero-chips">
+        <span class="chip accent">Python · SQL</span>
+        <span class="chip accent">Power BI · Tableau</span>
+        <span class="chip">Data Storytelling</span>
+        <span class="chip">AI & Automatizace</span>
+        <span class="chip">BPMN · UML</span>
+        <span class="chip">ISO 50 001</span>
+        <span class="chip">Coaching ICF</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#portfolio" class="btn-primary">📊 Zobrazit portfolio</a>
+        <a href="#contact" class="btn-secondary">✉ Napsat zprávu</a>
+        <a href="https://linkedin.com/in/rihamarek" target="_blank" class="btn-secondary">🔗 LinkedIn</a>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-label reveal">O mně</div>
+      <h2 class="section-title reveal">Kde se potkávají<br /><em>lidé, procesy a data</em></h2>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            Analytik a stratég s unikátním průnikem světů: od <strong>jaderné fyziky</strong> přes pedagogiku a coaching
+            až po energetický management a datovou analytiku. Tato cesta mi dala vzácnou schopnost mluvit
+            jazykem techniků i manažerů.
+          </p>
+          <p>
+            Přetvářím složitá data v <strong>srozumitelný příběh s byznysovým dopadem</strong>.
+            Nejlépe se cítím tam, kde záleží na výsledku a kde se technologie propojují s lidmi.
+          </p>
+          <p>
+            Aktuálně prohlubuju znalosti v <strong>datové architektuře, AI workflow a procesním designu</strong>
+            a hledám projekty nebo spolupráci, kde mohu tyto dovednosti naplno uplatnit.
+          </p>
+        </div>
+        <div>
+          <div class="about-stats">
+            <div class="stat-card reveal">
+              <div class="stat-num">15+</div>
+              <div class="stat-label">let v praxi</div>
+            </div>
+            <div class="stat-card reveal">
+              <div class="stat-num">3</div>
+              <div class="stat-label">světy: data · biz · lidé</div>
+            </div>
+            <div class="stat-card reveal">
+              <div class="stat-num">SQL</div>
+              <div class="stat-label">Python · BI · AI</div>
+            </div>
+            <div class="stat-card reveal">
+              <div class="stat-num">ICF</div>
+              <div class="stat-label">certifikovaný kouč</div>
+            </div>
+            <div class="coaching-card reveal">
+              <div class="coaching-card-text">
+                <strong>🎣 Ryba v lese – koučovací praxe</strong>
+                <span>Individuální koučink pro rozvoj potenciálu a kariérní navigaci.</span>
+              </div>
+              <a href="https://www.rybavlese.cz" target="_blank" class="coaching-link">
+                Navštívit web →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SERVICES ─── -->
+  <section id="services">
+    <div class="section-inner">
+      <div class="section-label reveal">Jak mohu pomoci</div>
+      <h2 class="section-title reveal">Oblasti<br /><em>spolupráce</em></h2>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <span class="service-icon">📊</span>
+          <div class="service-title">Datová analytika & BI</div>
+          <p class="service-desc">Čištění, transformace a vizualizace dat. Dashboardy, které skutečně říkají, co se děje. Reporting pro vedení i operativu.</p>
+          <div class="service-tags">
+            <span class="service-tag">SQL</span>
+            <span class="service-tag">Python</span>
+            <span class="service-tag">Power BI</span>
+            <span class="service-tag">Tableau</span>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">🤖</span>
+          <div class="service-title">AI & Automatizace</div>
+          <p class="service-desc">Integrace AI nástrojů do reálného workflow. Automatizace opakujících se procesů. Praktický průvodce světem AI pro firmy.</p>
+          <div class="service-tags">
+            <span class="service-tag">Make.com</span>
+            <span class="service-tag">ChatGPT</span>
+            <span class="service-tag">Claude</span>
+            <span class="service-tag">n8n</span>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">🗺</span>
+          <div class="service-title">Procesní & Byznys analýza</div>
+          <p class="service-desc">Mapování a optimalizace procesů. Překlad požadavků businessu do jazyka IT. Od as-is po to-be s jasným akčním plánem.</p>
+          <div class="service-tags">
+            <span class="service-tag">BPMN</span>
+            <span class="service-tag">UML</span>
+            <span class="service-tag">Miro</span>
+            <span class="service-tag">Notion</span>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">⚡</span>
+          <div class="service-title">Energetický management</div>
+          <p class="service-desc">Příprava na certifikaci ISO 50 001. Analýza spotřeby energie, datové podklady pro auditní dokumentaci.</p>
+          <div class="service-tags">
+            <span class="service-tag">ISO 50 001</span>
+            <span class="service-tag">Audit</span>
+            <span class="service-tag">Reporting</span>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">📢</span>
+          <div class="service-title">Data Storytelling</div>
+          <p class="service-desc">Transformace surových dat v příběh, který management pochopí a podle kterého bude jednat. Prezentace, vizualizace, narrative.</p>
+          <div class="service-tags">
+            <span class="service-tag">Prezentace</span>
+            <span class="service-tag">Vizualizace</span>
+            <span class="service-tag">Reporting</span>
+          </div>
+        </div>
+        <div class="service-card reveal">
+          <span class="service-icon">🎯</span>
+          <div class="service-title">Koučink & Mentoring</div>
+          <p class="service-desc">Kariérní navigace pro analytiky a tech specialisty. Rozvoj potenciálu, přechod do datové kariéry, krizová komunikace.</p>
+          <div class="service-tags">
+            <span class="service-tag">ICF</span>
+            <span class="service-tag">Kariéra</span>
+            <span class="service-tag">→ rybavlese.cz</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SKILLS ─── -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-label reveal">Dovednosti</div>
+      <h2 class="section-title reveal">Technický<br /><em>stack</em></h2>
+      <div class="skills-grid">
+        <div class="skill-group-card reveal">
+          <h3>Data & Analytika</h3>
+          <div class="skill-item"><span>SQL</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><span>Python</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-item"><span>Power BI</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-item"><span>Tableau</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-item"><span>Databricks</span><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div></div>
+          <div class="skill-item"><span>Snowflake</span><div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div></div>
+        </div>
+        <div class="skill-group-card reveal">
+          <h3>AI & Automatizace</h3>
+          <div class="skill-item"><span>ChatGPT / Claude</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><span>Make.com</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+          <div class="skill-item"><span>Prompt engineering</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-item"><span>Workflow design</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-item"><span>n8n</span><div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div></div>
+        </div>
+        <div class="skill-group-card reveal">
+          <h3>Procesní design</h3>
+          <div class="skill-item"><span>BPMN</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-item"><span>UML</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-item"><span>Miro</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-item"><span>Notion</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-item"><span>Obsidian</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+        </div>
+        <div class="skill-group-card reveal">
+          <h3>Soft & Leadership</h3>
+          <div class="skill-item"><span>Data Storytelling</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><span>Coaching (ICF)</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><span>Projektové řízení</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+          <div class="skill-item"><span>Krizová komunikace</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+          <div class="skill-item"><span>Facilitace</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PORTFOLIO ─── -->
+  <section id="portfolio">
+    <div class="section-inner">
+      <div class="section-label reveal">Moje práce</div>
+      <h2 class="section-title reveal">Portfolio<br /><em>projektů</em></h2>
+      <div class="portfolio-grid">
+        <!-- Reálný projekt 1 -->
+        <div class="portfolio-card reveal">
+          <span class="portfolio-tag">Datová analytika · ISO 50 001</span>
+          <div class="portfolio-title">Energetický management – TC Hradec Králové</div>
+          <p class="portfolio-desc">Příprava systému energetického managementu pro certifikaci ISO 50 001. Real-time dashboardy spotřeby energie pro vedení města. Python + SQL pipeline, auditní dokumentace.</p>
+          <div class="portfolio-foot">
+            <span>Python</span><span>SQL</span><span>ISO 50 001</span><span>Dashboard</span>
+          </div>
+        </div>
+        <!-- Projekt 2 – placeholder -->
+        <div class="portfolio-card reveal">
+          <div class="coming-soon">Brzy</div>
+          <span class="portfolio-tag">AI & Automatizace</span>
+          <div class="portfolio-title">AI Workflow Automation</div>
+          <p class="portfolio-desc">Integrace AI nástrojů do každodenního pracovního procesu. Automatizace reportingu, e-mailové komunikace a zpracování dat pomocí Make.com a Claude API.</p>
+          <div class="portfolio-foot">
+            <span>Make.com</span><span>Claude API</span><span>Automatizace</span>
+          </div>
+        </div>
+        <!-- Projekt 3 – placeholder -->
+        <div class="portfolio-card reveal">
+          <div class="coming-soon">Brzy</div>
+          <span class="portfolio-tag">Data Storytelling</span>
+          <div class="portfolio-title">BI Dashboard – Sales Analytics</div>
+          <p class="portfolio-desc">Interaktivní Power BI dashboard pro obchodní tým. Přeměna surových CRM dat v příběh pro management s doporučeními pro akci.</p>
+          <div class="portfolio-foot">
+            <span>Power BI</span><span>SQL</span><span>CRM</span><span>Storytelling</span>
+          </div>
+        </div>
+        <!-- Projekt 4 – placeholder -->
+        <div class="portfolio-card reveal">
+          <div class="coming-soon">Brzy</div>
+          <span class="portfolio-tag">Procesní analýza</span>
+          <div class="portfolio-title">Procesní audit & BPMN mapa</div>
+          <p class="portfolio-desc">Kompletní mapování firemních procesů, identifikace bottlenecků a návrh optimalizace. Výstup: BPMN dokumentace a akční plán pro implementaci.</p>
+          <div class="portfolio-foot">
+            <span>BPMN</span><span>Miro</span><span>Process Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── BLOG ─── -->
+  <section id="blog">
+    <div class="section-inner">
+      <div class="section-label reveal">Myšlenky & postřehy</div>
+      <h2 class="section-title reveal">Blog:<br /><em>data · AI · knihy</em></h2>
+      <div class="blog-grid">
+        <!-- Ukázkové posty – nahraď vlastním obsahem -->
+        <div class="blog-card reveal">
+          <div class="blog-meta">
+            <span class="blog-category">AI & Automatizace</span>
+            <span>Duben 2026</span>
+          </div>
+          <div class="blog-title">5 AI nástrojů, které opravdu používám každý den</div>
+          <p class="blog-excerpt">Přehled praktických AI nástrojů, které mi šetří hodiny týdně. Žádná teorie – jen to, co funguje v reálném pracovním workflow analytika a konzultanta.</p>
+          <a href="#" class="blog-read">Číst dál →</a>
+        </div>
+        <div class="blog-card reveal">
+          <div class="blog-meta">
+            <span class="blog-category">Knihy</span>
+            <span>Březen 2026</span>
+          </div>
+          <div class="blog-title">Thinking in Systems – co mě naučila Donella Meadows</div>
+          <p class="blog-excerpt">Recenze a klíčové myšlenky knihy, která změnila způsob, jakým přemýšlím o procesech, datech i koučinku. Systémové myšlení pro analytiky.</p>
+          <a href="#" class="blog-read">Číst dál →</a>
+        </div>
+        <div class="blog-card reveal">
+          <div class="blog-meta">
+            <span class="blog-category">Data</span>
+            <span>Únor 2026</span>
+          </div>
+          <div class="blog-title">Proč většina dashboardů selhává (a jak to napravit)</div>
+          <p class="blog-excerpt">Dashboard, který nikdo nečte, je vyhozené peníze. Zde je 7 principů data storytellingu, díky kterým začne váš reporting skutečně fungovat.</p>
+          <a href="#" class="blog-read">Číst dál →</a>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top: 40px;" class="reveal">
+        <a href="#" class="btn-secondary">Zobrazit všechny články →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-label reveal">Spojme se</div>
+      <h2 class="section-title reveal">Máte projekt<br /><em>nebo dotaz?</em></h2>
+      <div class="contact-wrapper">
+        <div class="contact-info reveal">
+          <p>Jsem otevřený freelance projektům, konzultacím i dlouhodobé spolupráci. Napište mi, rád se dozvím více o vašem záměru.</p>
+          <div class="contact-links">
+            <a href="mailto:rihamarek@post.cz" class="contact-link">
+              <span class="contact-link-icon">✉</span>
+              <div>
+                <span class="contact-link-label">E-mail</span>
+                rihamarek@post.cz
+              </div>
+            </a>
+            <a href="tel:+420777815013" class="contact-link">
+              <span class="contact-link-icon">📞</span>
+              <div>
+                <span class="contact-link-label">Telefon</span>
+                +420 777 815 013
+              </div>
+            </a>
+            <a href="https://linkedin.com/in/rihamarek" target="_blank" class="contact-link">
+              <span class="contact-link-icon">🔗</span>
+              <div>
+                <span class="contact-link-label">LinkedIn</span>
+                linkedin.com/in/rihamarek
+              </div>
+            </a>
+            <a href="https://www.rybavlese.cz" target="_blank" class="contact-link">
+              <span class="contact-link-icon">🎣</span>
+              <div>
+                <span class="contact-link-label">Koučovací web</span>
+                rybavlese.cz
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="contact-form reveal">
+          <div class="form-group">
+            <label>Vaše jméno</label>
+            <input type="text" placeholder="Jana Nováková" />
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" placeholder="jana@firma.cz" />
+          </div>
+          <div class="form-group">
+            <label>Zpráva</label>
+            <textarea placeholder="Popište váš projekt nebo dotaz..."></textarea>
+          </div>
+          <button class="form-submit" onclick="handleFormSubmit()">Odeslat zprávu →</button>
+          <p style="font-size:12px;color:var(--muted);margin-top:12px;font-family:var(--mono);">
+            * Formulář zatím funguje jen jako UI. Pro aktivaci propojte s Formspree nebo Netlify Forms – viz README.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">MR // Marek Říha</div>
+    <div class="footer-copy">© 2026 · Business & Data Translator · Hradec Králové</div>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/rihamarek" target="_blank">LinkedIn</a>
+      <a href="https://www.rybavlese.cz" target="_blank">Koučink</a>
+      <a href="mailto:rihamarek@post.cz">E-mail</a>
+    </div>
+  </footer>
+
+  <!-- ─── JS ─── -->
+  <script>
+    // Mobile menu
+    function toggleMenu() {
+      const links = document.getElementById('navLinks');
+      links.classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('navLinks').classList.remove('open');
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth nav shrink on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.style.padding = window.scrollY > 50 ? '12px 48px' : '18px 48px';
+    });
+
+    // Stagger reveal children with delay
+    document.querySelectorAll('.services-grid, .skills-grid, .portfolio-grid, .blog-grid, .about-stats').forEach(grid => {
+      grid.querySelectorAll('.reveal').forEach((el, i) => {
+        el.style.transitionDelay = (i * 0.08) + 's';
+      });
+    });
+
+    // Form submit placeholder
+    function handleFormSubmit() {
+      alert('Děkuji za zprávu! ✉\n\nFormulář je zatím ve fázi ukázky. Pro aktivaci propojte s Formspree.io (bezplatná služba) – viz průvodce nasazením.');
+    }
+  </script>
+</body>
+</html>
