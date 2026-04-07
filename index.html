@@ -137,15 +137,30 @@
     .hero-badge::before { content: '●'; animation: blink 2s step-end infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
+    .hero-name-row {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .hero-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.16);
+      flex-shrink: 0;
+    }
     .hero-name {
-      font-family: var(--serif);
+      font-family: var(--sans);
       font-size: clamp(52px, 8vw, 96px);
       line-height: 1.0;
       letter-spacing: -2px;
       color: #fff;
       animation: fadeUp 0.6s 0.1s ease both;
     }
-    .hero-name em { color: var(--amber); font-style: italic; }
+    .hero-name em { color: var(--amber); font-style: normal; }
 
     .hero-role {
       font-size: clamp(15px, 2vw, 19px);
@@ -482,7 +497,7 @@
 
   <!-- ─── NAV ─── -->
   <nav id="navbar">
-    <div class="nav-logo">MR // rihamarek.cz</div>
+    <div class="nav-logo">rihamarek.cz</div>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about" onclick="closeMenu()">O mně</a></li>
       <li><a href="#services" onclick="closeMenu()">Služby</a></li>
@@ -499,11 +514,12 @@
   <section id="hero">
     <div class="hero-inner">
       <div class="hero-badge">Dostupný pro spolupráci · Hradec Králové / Remote</div>
-      <h1 class="hero-name">
-        Marek<br /><em>Říha</em>
-      </h1>
+      <div class="hero-name-row">
+        <img class="hero-avatar" src="https://github.com/rihamarek/assets/blob/main/media/photos/foto_bez%20pozadi_ctverec.jpg?raw=true" alt="Profilová fotografie Marka Říhy" />
+        <h1 class="hero-name">Marek Říha</h1>
+      </div>
       <p class="hero-role">
-        <strong>Business & Data Translator</strong> · Propojuji svět dat se strategií a lidmi.<br />
+        <strong>Propojuji lidi, procesy a technologie.</strong> · <br />
         Analytik, konzultant AI a automatizace, certifikovaný kouč.
       </p>
       <div class="hero-chips">
@@ -531,45 +547,78 @@
   <section id="about">
     <div class="section-inner">
       <div class="section-label reveal">O mně</div>
-      <h2 class="section-title reveal">Kde se potkávají<br /><em>lidé, procesy a data</em></h2>
+      <h2 class="section-title reveal">Kde se potkávají <em>lidé, procesy a data</em></h2>
       <div class="about-grid">
         <div class="about-text reveal">
           <p>
-            Analytik a stratég s unikátním průnikem světů: od <strong>jaderné fyziky</strong> přes pedagogiku a coaching
-            až po energetický management a datovou analytiku. Tato cesta mi dala vzácnou schopnost mluvit
-            jazykem techniků i manažerů.
+            Nejvíc se cítím v roli, kde se potkávají lidé, procesy a technologie – a začnou konečně dávat smysl. <br />
+            Pohybuji se na pomezí dat, byznysu a IT – jako „překladatel“ mezi těmito světy. 
           </p>
           <p>
-            Přetvářím složitá data v <strong>srozumitelný příběh s byznysovým dopadem</strong>.
-            Nejlépe se cítím tam, kde záleží na výsledku a kde se technologie propojují s lidmi.
+            Moje profesní cesta (technický základ, obchod, školství, data) mi umožňuje vidět věci v souvislostech a navrhovat řešení, která fungují v praxi.
+            
           </p>
-          <p>
-            Aktuálně prohlubuju znalosti v <strong>datové architektuře, AI workflow a procesním designu</strong>
-            a hledám projekty nebo spolupráci, kde mohu tyto dovednosti naplno uplatnit.
+            ⚙️ Co aktuálně dělám
+            <p>
+            Využívám kariérní pauzu k cílenému rozvoji a stavbě portfolia v oblastech:<br />
+            🧩 analýza a modelování procesů (BPMN, UML) <br />
+            📊 spolupráce a řízení práce (Jira, Miro) <br />
+            ⚙️ automatizace workflow (Make)<br />
+            📈 práce s daty (Python, SQL, Tableau)<br />
+            🤖 využití AI v praxi (ChatGPT, Gemini, Claude)<br />
+            🧠 knowledge management (Notion, Obsidian)<br />
+            🔄 projektové řízení (agilní přístupy, Scrum)<br />
+            </p>
+            🧠 Jak přemýšlím
+            <p>
+            🔍 zkoumám, jak věci fungují<br />
+            🧠 hledám jednodušší a efektivnější řešení<br />
+            🔗 propojuji lidi, procesy a technologie<br />
+            📊 pracuji s daty i kontextem<br />
+            🎓 pomáhám ostatním věci pochopit a používat<br />
+            👉 Nejde mi jen o data, ale o to, aby vedla k lepším rozhodnutím.<br />
+            </p>
+            📊 Technický základ
+            <p>
+            Excel • Python (Pandas) • SQL • Tableau
+            (získáno v rámci intenzivního kurzu datové analýzy od Coders Lab)
+            </p>
+            🚀 Kam směřuji & spolupráce
+            <p>
+            Zajímám se o role jako Business Analyst / IT Analyst / Process Analyst / Data Analyst s přesahem do projektového řízení (Project / Product). 
+            Ideálně v prostředí, kde má práce reálný dopad a kde se věci skutečně posouvají, ne jen reportují.
+            Jsem otevřený pracovním příležitostem, kratším projektům i pilotním spolupracím.
+            </p>
+            🤝 Vedle toho
+            <p>
+            Dlouhodobě se věnuji koučovacím aktivitám. Jako certifikovaný kouč pomáhám lidem rozvíjet jejich potenciál, zvládat změny a nacházet směr v kariéře i osobním životě.
+            </p>
+            💬 Motto <br />
+            „Neposlouchejte moc, co vám lidé říkají. Přemýšlejte, co vám chtějí říct.“
           </p>
         </div>
         <div>
           <div class="about-stats">
             <div class="stat-card reveal">
-              <div class="stat-num">15+</div>
-              <div class="stat-label">let v praxi</div>
+              <div class="stat-num">komunikace  </div>
+              <div class="stat-label">12 let praxe pedagoga a lektora, <br /> projektový manažer, koordinátor, kouč </div>
             </div>
             <div class="stat-card reveal">
-              <div class="stat-num">3</div>
-              <div class="stat-label">světy: data · biz · lidé</div>
+              <div class="stat-num">obchod</div>
+              <div class="stat-label">7 let praxe v obchodním prostředí, <br /> obchodní zástupce, OSVČ </div>
             </div>
             <div class="stat-card reveal">
-              <div class="stat-num">SQL</div>
-              <div class="stat-label">Python · BI · AI</div>
+              <div class="stat-num">datová analýza</div>
+              <div class="stat-label">certifikát a zkouška Datový analytik<br /> (Excel · SQL · Python · vizualizace dat) </div>
             </div>
             <div class="stat-card reveal">
-              <div class="stat-num"></div>
-              <div class="stat-label">certifikovaný kouč</div>
+              <div class="stat-num">projektové myšlení</div>
+              <div class="stat-label">certifikovaný kouč, AI, automatizace</div>
             </div>
             <div class="coaching-card reveal">
               <div class="coaching-card-text">
-                <strong>🎣 Ryba v lese – koučovací praxe</strong>
-                <span>Individuální koučink pro rozvoj potenciálu a kariérní navigaci.</span>
+                <strong>🐟 Ryba v lese – koučovací praxe</strong>
+                <span>Individuální koučink pro rozvoj potenciálu a transformaci.</span>
               </div>
               <a href="https://www.rybavlese.cz" target="_blank" class="coaching-link">
                 Navštívit web →
@@ -585,7 +634,7 @@
   <section id="services">
     <div class="section-inner">
       <div class="section-label reveal">Jak mohu pomoci</div>
-      <h2 class="section-title reveal">Oblasti<br /><em>spolupráce</em></h2>
+      <h2 class="section-title reveal">Oblasti spolupráce</h2>
       <div class="services-grid">
         <div class="service-card reveal">
           <span class="service-icon">📊</span>
@@ -658,37 +707,37 @@
   <section id="skills">
     <div class="section-inner">
       <div class="section-label reveal">Dovednosti</div>
-      <h2 class="section-title reveal">Technický<br /><em>stack</em></h2>
+      <h2 class="section-title reveal">Technický stack</h2>
       <div class="skills-grid">
         <div class="skill-group-card reveal">
           <h3>Data & Analytika</h3>
-          <div class="skill-item"><span>SQL</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><span>SQL</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
           <div class="skill-item"><span>Python</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-item"><span>Power BI</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-          <div class="skill-item"><span>Tableau</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-item"><span>Databricks</span><div class="skill-bar"><div class="skill-fill" style="width:55%"></div></div></div>
-          <div class="skill-item"><span>Snowflake</span><div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div></div>
+          <div class="skill-item"><span>Power BI</span><div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div></div>
+          <div class="skill-item"><span>Tableau</span><div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div></div>
+          <div class="skill-item"><span>Databricks</span><div class="skill-bar"><div class="skill-fill" style="width:5%"></div></div></div>
+          <div class="skill-item"><span>Snowflake</span><div class="skill-bar"><div class="skill-fill" style="width:5%"></div></div></div>
         </div>
         <div class="skill-group-card reveal">
           <h3>AI & Automatizace</h3>
           <div class="skill-item"><span>ChatGPT / Claude</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
-          <div class="skill-item"><span>Make.com</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
-          <div class="skill-item"><span>Prompt engineering</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-          <div class="skill-item"><span>Workflow design</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-item"><span>n8n</span><div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div></div>
+          <div class="skill-item"><span>Make.com</span><div class="skill-bar"><div class="skill-fill" style="width:25%"></div></div></div>
+          <div class="skill-item"><span>Prompt engineering</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+          <div class="skill-item"><span>Workflow design</span><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+          <div class="skill-item"><span>n8n</span><div class="skill-bar"><div class="skill-fill" style="width:5%"></div></div></div>
         </div>
         <div class="skill-group-card reveal">
           <h3>Procesní design</h3>
-          <div class="skill-item"><span>BPMN</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-          <div class="skill-item"><span>UML</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-item"><span>Miro</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
-          <div class="skill-item"><span>Notion</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
-          <div class="skill-item"><span>Obsidian</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+          <div class="skill-item"><span>BPMN</span><div class="skill-bar"><div class="skill-fill" style="width:5%"></div></div></div>
+          <div class="skill-item"><span>UML</span><div class="skill-bar"><div class="skill-fill" style="width:10%"></div></div></div>
+          <div class="skill-item"><span>Miro</span><div class="skill-bar"><div class="skill-fill" style="width:15%"></div></div></div>
+          <div class="skill-item"><span>Notion</span><div class="skill-bar"><div class="skill-fill" style="width:10%"></div></div></div>
+          <div class="skill-item"><span>Obsidian</span><div class="skill-bar"><div class="skill-fill" style="width:5%"></div></div></div>
         </div>
         <div class="skill-group-card reveal">
           <h3>Soft & Leadership</h3>
           <div class="skill-item"><span>Data Storytelling</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
-          <div class="skill-item"><span>Coaching ()</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><span>Coaching</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
           <div class="skill-item"><span>Projektové řízení</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
           <div class="skill-item"><span>Krizová komunikace</span><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
           <div class="skill-item"><span>Facilitace</span><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
@@ -701,7 +750,7 @@
   <section id="portfolio">
     <div class="section-inner">
       <div class="section-label reveal">Moje práce</div>
-      <h2 class="section-title reveal">Portfolio<br /><em>projektů</em></h2>
+      <h2 class="section-title reveal">Portfolio projektů</h2>
       <div class="portfolio-grid">
         <!-- Reálný projekt 1 -->
         <div class="portfolio-card reveal">
@@ -767,8 +816,8 @@
             <span class="blog-category">Knihy</span>
             <span>Březen 2026</span>
           </div>
-          <div class="blog-title">Thinking in Systems – co mě naučila Donella Meadows</div>
-          <p class="blog-excerpt">Recenze a klíčové myšlenky knihy, která změnila způsob, jakým přemýšlím o procesech, datech i koučinku. Systémové myšlení pro analytiky.</p>
+          <div class="blog-title">Budoucnost nepráce od Filip Dřímalka</div>
+          <p class="blog-excerpt">Recenze a klíčové myšlenky knihy, která změnila způsob, jakým přemýšlím o procesech, AI a automatizaci.</p>
           <a href="#" class="blog-read">Číst dál →</a>
         </div>
         <div class="blog-card reveal">
@@ -818,7 +867,7 @@
               </div>
             </a>
             <a href="https://www.rybavlese.cz" target="_blank" class="contact-link">
-              <span class="contact-link-icon">🎣</span>
+              <span class="contact-link-icon">🐟</span>
               <div>
                 <span class="contact-link-label">Koučovací web</span>
                 rybavlese.cz
@@ -841,7 +890,7 @@
           </div>
           <button class="form-submit" onclick="handleFormSubmit()">Odeslat zprávu →</button>
           <p style="font-size:12px;color:var(--muted);margin-top:12px;font-family:var(--mono);">
-            * Formulář zatím funguje jen jako UI. Pro aktivaci propojte s Formspree nebo Netlify Forms – viz README.
+            * Formulář zatím funguje jen jako UI. 
           </p>
         </div>
       </div>
@@ -850,7 +899,7 @@
 
   <!-- ─── FOOTER ─── -->
   <footer>
-    <div class="footer-logo">MR // Marek Říha</div>
+    <div class="footer-logo">Marek Říha</div>
     <div class="footer-copy">© 2026 · Business & Data Translator · Hradec Králové</div>
     <div class="footer-links">
       <a href="https://linkedin.com/in/rihamarek" target="_blank">LinkedIn</a>
